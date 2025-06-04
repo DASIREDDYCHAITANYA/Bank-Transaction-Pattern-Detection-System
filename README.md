@@ -11,7 +11,7 @@ It involves real-time-like streaming of data via S3, pattern analysis using Glue
 
 ## 🧱 Block Diagram
 
-![Block Diagram](images/block_diagram.png)
+![Block Diagram](Images/659B2776-690B-403B-9D19-3CAD26702D11_1_201_a.jpeg)
 
 **Description**:  
 The block diagram outlines the overall architecture of the system:
