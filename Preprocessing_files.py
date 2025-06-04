@@ -1,3 +1,4 @@
+import pandas as pd
 #Preprocessing CustomerImportance
 
 f=pd.read_csv("/content/drive/MyDrive/CustomerImportance.csv")
