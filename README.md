@@ -51,8 +51,17 @@ Each file (e.g., `chunk_00001.parquet`) contains exactly 10,000 transactions rea
 
 ---
 ## Implementation of glue pyspark
-![Implementation](Images/86209F84-0DAC-4491-B976-630BCCED2591_1_201_a.jpeg)
+![Implementation](Images/0E21152F-33FA-40DF-8FD6-5A0BC37302D1_1_201_a.jpeg)
 
+Reads those chunks from S3, detects 3 patterns, and writes output (50 detections/file) to S3.
+
+Patterns to detect:
+
+-PatId1 (UPGRADE): Top 1% customers by transactions with a merchant, but bottom 1% weight from CustomerImportance.csv. Only after merchant has >50K transactions.
+
+-PatId2 (CHILD): Average txn < ₹23 for a customer with a merchant and count ≥ 80.
+
+-PatId3 (DEI-NEEDED): Female customers < Male customers overall, but female count > 100.
 ## ✅ Output Detection Files
 
 ![Output Files](Images/007963A5-AD78-4B82-9BAD-12B36EFF4717_1_201_a.jpeg
