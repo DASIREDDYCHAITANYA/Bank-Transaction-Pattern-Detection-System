@@ -77,4 +77,4 @@ Each output file contains **50 detected patterns**, named in the format `batch_N
 ---
 
 ✅ This project showcases how distributed systems, cloud storage, and big data tools like AWS Glue and S3 can be used to automate detection pipelines in a scalable way.
-
+##Downloadale otuput ZIP file : https://bank-transactions-pipeline.s3.amazonaws.com/output/zipped_files.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVT7PC7SXRW6VE6JH%2F20250604%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20250604T073027Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=c110ba98a5334c9d57c62efa60a9748d9d0c0320171c8fe8bee86599eec00f72
