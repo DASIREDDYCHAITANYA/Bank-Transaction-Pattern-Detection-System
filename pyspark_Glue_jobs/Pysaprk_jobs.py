@@ -8,21 +8,17 @@ from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 from awsglue.job import Job
 
-# Get job arguments (JOB_NAME)
 args = getResolvedOptions(sys.argv, ['JOB_NAME'])
 
-# Initialize Spark and Glue contexts
 sc = SparkContext()
 glueContext = GlueContext(sc)
 spark = glueContext.spark_session
 
-# Initialize Glue job
 job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
 
 print("Starting job")
 
-# Initialize Glue context and Sp
 
 # --- Input/Output Paths ---
 chunk_path = "s3://bank-transactions-pipeline/txn_chunks/chunk_00006.parquet"
@@ -50,32 +46,27 @@ df = df.select(
 )
 importance_threshold = 10000
 
-# First, join on df.customer == importance_df.Source and df.merchant == importance_df.Target
 df_joined = df.join(
     importance_df,
     (df.customer == importance_df.Source) & (df.merchant == importance_df.Target),
     how='left'
 )
 
-# Create an "importance" column: HIGH if Weight > threshold, else LOW
 df_joined = df_joined.withColumn(
     "importance",
     F.when(F.col("Weight").cast("double") > importance_threshold, "HIGH").otherwise("LOW")
 )
 
-# --- Pattern 1: More than 3 txns by same customer in a step ---
 pat1 = df_joined.withColumn(
     "txn_count", 
     F.count("*").over(Window.partitionBy("customer", "step"))
 ).filter(F.col("txn_count") > 3) \
  .withColumn("pattern", F.lit("PatId1"))
 
-# --- Pattern 2: High-importance customers with txns > 10,000 ---
 pat2 = df_joined.filter(
     (F.col("importance") == "HIGH") & (F.col("amount") > 10000)
 ).withColumn("pattern", F.lit("PatId2"))
 
-# --- Pattern 3: >2 txns to same merchant/zip in window of 5 steps ---
 w3 = Window.partitionBy("zipcodeOri", "merchant").orderBy("step").rangeBetween(-4, 0)
 pat3 = df_joined.withColumn(
     "zip_merchant_count", 
